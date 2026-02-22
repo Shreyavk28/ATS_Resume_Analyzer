@@ -24,7 +24,7 @@ An enterprise-level Applicant Tracking System (ATS) Resume Analyzer built using 
 ![Upload Center](screenshots/upload.png)
 
 ### ATS Report Dashboard
-![ATS Report](screenshots/report.png)
+![ATS Report](screenshots/ats-report.png)
 
 ### Recruiter Dashboard
 ![Recruiter Dashboard](screenshots/dashboard.png)
