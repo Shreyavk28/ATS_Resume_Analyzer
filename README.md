@@ -85,6 +85,4 @@ npm start
 
 **Shreya V K**
 GitHub: https://github.com/ShreyaVK28
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
+
