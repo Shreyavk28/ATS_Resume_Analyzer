@@ -71,3 +71,47 @@ python manage.py runserver
 cd frontend
 npm install
 npm start
+
+---
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|------|---------|-------------|
+| POST | /api/upload/ | Upload resume and analyze ATS score |
+| GET | /api/candidates/ | Get all saved candidates |
+| POST | /api/candidates/add/ | Save candidate to database |
+| PUT | /api/candidates/{id}/update/ | Update candidate status |
+| DELETE | /api/candidates/{id}/delete/ | Delete candidate |
+
+---
+
+## How It Works
+
+1. User uploads resume and enters job description
+2. Backend extracts text from resume
+3. NLP engine extracts skills from resume and job description
+4. ATS engine calculates ATS score and matching percentage
+5. System predicts best matching job role
+6. Candidate data is saved in database
+7. Recruiter dashboard displays candidate pipeline
+
+---
+
+## Future Improvements
+
+- Add authentication (Recruiter login)
+- Support PostgreSQL production database
+- Deploy on AWS / Render / Railway
+- Add resume ranking system
+- Add email notification system
+
+---
+
+## Author
+
+**Shreya V K**  
+Computer Science Student  
+Aspiring Software Engineer  
+
+GitHub: https://github.com/ShreyaVK28
