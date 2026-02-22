@@ -68,7 +68,7 @@ venv\Scripts\activate
 cd frontend
 npm install
 npm start
----
+```
 
 ## API Endpoints
 
@@ -80,9 +80,7 @@ npm start
 | PUT | /api/candidates/{id}/update/ | Update candidate status |
 | DELETE | /api/candidates/{id}/delete/ | Delete candidate |
 
----
-
-
+```
 ## Author
 
 **Shreya V K**
