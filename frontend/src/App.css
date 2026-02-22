@@ -1,0 +1,148 @@
+GLOBAL
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f4f6f9;
+}
+
+
+/* UPLOAD PAGE */
+
+.upload-wrapper {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+}
+
+
+.upload-card {
+
+  background: white;
+  padding: 40px;
+  width: 500px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+
+}
+
+
+.upload-card h2 {
+
+  margin-bottom: 20px;
+  text-align: center;
+
+}
+
+
+.upload-card input {
+
+  width: 100%;
+  margin-bottom: 15px;
+
+}
+
+
+.upload-card textarea {
+
+  width: 100%;
+  height: 150px;
+
+  padding: 10px;
+
+  margin-bottom: 15px;
+
+  border-radius: 6px;
+  border: 1px solid #ccc;
+
+}
+
+
+.upload-card button {
+
+  width: 100%;
+  padding: 12px;
+
+  background: #007bff;
+  color: white;
+
+  border: none;
+  border-radius: 6px;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+}
+
+
+.upload-card button:hover {
+
+  background: #0056b3;
+
+}
+
+
+
+/* REPORT PAGE */
+
+.report-container {
+
+  max-width: 1100px;
+  margin: auto;
+
+}
+
+
+.report-grid {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 20px;
+
+}
+
+
+.report-card {
+
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 10px;
+
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+
+}
+
+
+.matched {
+
+  color: green;
+
+}
+
+
+.missing {
+
+  color: red;
+
+}
+
+
+
+/* DASHBOARD */
+
+.dashboard-container {
+
+  max-width: 800px;
+  margin: auto;
+
+}
