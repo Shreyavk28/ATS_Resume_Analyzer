@@ -111,7 +111,4 @@ npm start
 ## Author
 
 **Shreya V K**  
-Computer Science Student  
-Aspiring Software Engineer  
-
 GitHub: https://github.com/ShreyaVK28
