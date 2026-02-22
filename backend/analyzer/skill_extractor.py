@@ -2,14 +2,7 @@ import re
 import spacy
 from spacy.matcher import PhraseMatcher
 
-# Load spaCy model
 nlp = spacy.load("en_core_web_sm")
-
-
-# ENTERPRISE SKILL MAP
-# key = variation found in resume
-# value = canonical skill name stored in ATS
-
 SKILL_MAP = {
 
     # ======================
@@ -143,6 +136,9 @@ SKILL_MAP = {
 
     "docker": "docker",
     "kubernetes": "kubernetes",
+    "aws": "aws",
+    "azure":"azure",
+    "gcp":"gcp",
 
     "jenkins": "jenkins",
 
@@ -205,19 +201,14 @@ SKILL_MAP = {
 
 }
 
-
-# Create PhraseMatcher
 matcher = PhraseMatcher(nlp.vocab, attr="LOWER")
 
 patterns = [
     nlp.make_doc(skill)
     for skill in SKILL_MAP.keys()
 ]
-
 matcher.add("SKILLS", patterns)
 
-
-# Normalize text
 def normalize_text(text):
 
     text = text.lower()
@@ -236,8 +227,6 @@ def normalize_text(text):
 
     return text
 
-
-# Extract skills function
 def extract_skills(text):
 
     text = normalize_text(text)

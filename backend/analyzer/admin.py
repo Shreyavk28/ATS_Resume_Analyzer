@@ -1,15 +1,5 @@
-# from django.contrib import admin
-# from .models import Resume
-
-# admin.site.register(Resume)
-
-
-
 from django.contrib import admin
 from .models import Resume, Candidate
-
-
-# Register Resume model
 @admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
 
@@ -21,8 +11,6 @@ class ResumeAdmin(admin.ModelAdmin):
 
     ordering = ("-uploaded_at",)
 
-
-# Register Candidate model
 @admin.register(Candidate)
 class CandidateAdmin(admin.ModelAdmin):
 

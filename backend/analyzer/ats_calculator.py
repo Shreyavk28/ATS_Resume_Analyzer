@@ -1,5 +1,3 @@
-# ats_calculator.py
-
 ROLE_SKILLS = {
 
     "Backend Developer": [

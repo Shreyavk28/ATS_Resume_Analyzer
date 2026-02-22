@@ -1,6 +1,5 @@
-import fitz  # PyMuPDF
+import fitz 
 import re
-
 
 def extract_text_from_pdf(pdf_path):
 
@@ -12,14 +11,8 @@ def extract_text_from_pdf(pdf_path):
         text += page.get_text()
 
     doc.close()
-
-    # FIX 1: join broken words like "REST\nAPI"
     text = re.sub(r'(\w)\n(\w)', r'\1 \2', text)
-
-    # FIX 2: remove extra newlines
     text = re.sub(r'\n+', ' ', text)
-
-    # FIX 3: normalize spaces
     text = re.sub(r'\s+', ' ', text)
 
     return text.lower()

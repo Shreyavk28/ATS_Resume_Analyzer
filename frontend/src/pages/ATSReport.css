@@ -1,6 +1,3 @@
-/* ============================
-   ATS REPORT PAGE
-============================ */
 
 .ats-container {
   max-width: 1250px;
@@ -8,7 +5,6 @@
   padding: 30px 25px;
 }
 
-/* Page title */
 .ats-title {
   font-size: 30px;
   font-weight: 700;
@@ -16,22 +12,12 @@
   margin-bottom: 20px;
 }
 
-
-/* ============================
-   TOP GRID
-============================ */
-
 .ats-top-grid {
   display: grid;
   grid-template-columns: 350px 1fr;
   gap: 25px;
   margin-bottom: 25px;
 }
-
-
-/* ============================
-   SCORE CARD
-============================ */
 
 .ats-score-card {
   background: linear-gradient(135deg, #2563eb, #1e3a8a);
@@ -59,11 +45,6 @@
   opacity: 0.95;
 }
 
-
-/* ============================
-   CARDS
-============================ */
-
 .ats-card {
   background: #ffffff;
   padding: 25px;
@@ -85,18 +66,9 @@
 }
 
 
-/* ============================
-   ROLE CHART FULL WIDTH
-============================ */
-
 .full-width {
   margin-bottom: 25px;
 }
-
-
-/* ============================
-   SKILLS GRID
-============================ */
 
 .ats-grid {
   display: grid;
@@ -104,11 +76,6 @@
   gap: 25px;
   margin-bottom: 25px;
 }
-
-
-/* ============================
-   SKILL ITEMS
-============================ */
 
 .skill-item {
   margin-bottom: 10px;
@@ -125,11 +92,6 @@
   font-weight: 500;
 }
 
-
-/* ============================
-   SUGGESTIONS
-============================ */
-
 .ats-suggestions {
   background: linear-gradient(135deg, #eff6ff, #dbeafe);
   border-left: 6px solid #2563eb;
@@ -143,19 +105,10 @@
   box-shadow: 0 3px 8px rgba(0,0,0,0.06);
 }
 
-
-/* ============================
-   CHART CENTER FIX
-============================ */
-
 .recharts-wrapper {
   margin: auto;
 }
 
-
-/* ============================
-   RESPONSIVE
-============================ */
 
 @media (max-width: 1000px) {
 
@@ -226,9 +179,6 @@
   cursor: pointer;
 }
 
-
-/* ===== Improve bottom cards only ===== */
-
 .ats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -236,7 +186,6 @@
   margin-top: 24px;
 }
 
-/* Improve cards */
 .ats-card {
   background: #ffffff;
   border-radius: 14px;
@@ -255,7 +204,6 @@
     0 4px 10px rgba(0,0,0,0.06);
 }
 
-/* Card titles */
 .ats-card h3 {
   font-size: 18px;
   font-weight: 600;
@@ -265,15 +213,12 @@
   padding-bottom: 8px;
 }
 
-
-/* Skill list container */
 .skills-list {
   max-height: 260px;
   overflow-y: auto;
   padding-right: 6px;
 }
 
-/* scrollbar */
 .skills-list::-webkit-scrollbar {
   width: 6px;
 }
@@ -283,8 +228,6 @@
   border-radius: 4px;
 }
 
-
-/* Skill items improved */
 .skill-item {
   padding: 8px 12px;
   margin-bottom: 8px;
@@ -294,22 +237,17 @@
   background: #f8fafc;
 }
 
-/* Matched */
 .skill-item.match {
   color: #059669;
   background: #ecfdf5;
   border-left: 4px solid #10b981;
 }
-
-/* Missing */
 .skill-item.missing {
   color: #dc2626;
   background: #fef2f2;
   border-left: 4px solid #ef4444;
 }
 
-
-/* Suggestions section improvement */
 .suggestion-box {
   background: linear-gradient(
     90deg,
@@ -324,14 +262,10 @@
   margin-top: 10px;
 }
 
-
-/* Full width card */
 .full-width {
   margin-top: 24px;
 }
 
-
-/* Improve spacing between sections */
 .ats-container {
   padding-bottom: 40px;
 }

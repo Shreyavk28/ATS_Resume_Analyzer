@@ -47,9 +47,6 @@ const UploadCenter = () => {
     <div className="upload-container">
 
       <div className="upload-card">
-
-
-        {/* HEADER */}
         <div className="upload-header">
 
           <div className="upload-icon">📄</div>
@@ -60,9 +57,6 @@ const UploadCenter = () => {
           </div>
 
         </div>
-
-
-        {/* FILE UPLOAD */}
         <div className="upload-section">
 
           <label className="upload-label">
@@ -81,9 +75,6 @@ const UploadCenter = () => {
           )}
 
         </div>
-
-
-        {/* JOB DESCRIPTION */}
         <div className="upload-section">
 
           <label className="upload-label">
@@ -97,9 +88,6 @@ const UploadCenter = () => {
           />
 
         </div>
-
-
-        {/* BUTTON */}
         <button
           className="upload-btn"
           onClick={handleUpload}
@@ -107,9 +95,6 @@ const UploadCenter = () => {
         >
           {loading ? "Analyzing Resume..." : "Analyze Resume"}
         </button>
-
-
-        {/* FOOTER INFO */}
         <div className="upload-footer">
 
           Supported formats: PDF  
