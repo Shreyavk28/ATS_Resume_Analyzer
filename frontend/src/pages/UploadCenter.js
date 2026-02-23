@@ -7,7 +7,6 @@ const UploadCenter = () => {
   const [jobDesc, setJobDesc] = useState("");
   const [loading, setLoading] = useState(false);
 
-
   const handleUpload = async () => {
 
     if (!file || !jobDesc) {
@@ -23,22 +22,36 @@ const UploadCenter = () => {
 
     try {
 
-      const res = await fetch("http://127.0.0.1:8000/api/upload/", {
+      // ✅ FIXED: Use your Render backend URL
+      const res = await fetch("https://ats-backend-re6q.onrender.com/api/upload/", {
         method: "POST",
         body: formData
       });
 
+      // check server response
+      if (!res.ok) {
+        throw new Error("Server error");
+      }
+
       const data = await res.json();
 
+      console.log("ATS Result:", data);
+
+      // save result
       localStorage.setItem("ats_result", JSON.stringify(data));
 
+      // redirect
       window.location.href = "/report";
 
-    } catch {
-      alert("Backend error");
+    } catch (error) {
+
+      console.error(error);
+      alert("Backend error. Please try again.");
+
     }
 
     setLoading(false);
+
   };
 
 
@@ -47,6 +60,7 @@ const UploadCenter = () => {
     <div className="upload-container">
 
       <div className="upload-card">
+
         <div className="upload-header">
 
           <div className="upload-icon">📄</div>
@@ -57,6 +71,8 @@ const UploadCenter = () => {
           </div>
 
         </div>
+
+
         <div className="upload-section">
 
           <label className="upload-label">
@@ -65,6 +81,7 @@ const UploadCenter = () => {
 
           <input
             type="file"
+            accept=".pdf"
             onChange={(e) => setFile(e.target.files[0])}
           />
 
@@ -75,6 +92,8 @@ const UploadCenter = () => {
           )}
 
         </div>
+
+
         <div className="upload-section">
 
           <label className="upload-label">
@@ -88,6 +107,8 @@ const UploadCenter = () => {
           />
 
         </div>
+
+
         <button
           className="upload-btn"
           onClick={handleUpload}
@@ -95,6 +116,8 @@ const UploadCenter = () => {
         >
           {loading ? "Analyzing Resume..." : "Analyze Resume"}
         </button>
+
+
         <div className="upload-footer">
 
           Supported formats: PDF  
