@@ -1,7 +1,7 @@
 """
 Django settings for backend project.
 
-Production-ready settings for ATS Resume Analyzer deployment.
+Production-ready settings for ATS Resume Analyzer deployment on Render.
 """
 
 from corsheaders.defaults import default_headers
@@ -21,16 +21,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-8bj+z1bkb7swa4)ebu_2#v8t2yaw3!d&209o9%yrpby53%7rr9'
 
-# Change to False in production
-DEBUG = True
+# IMPORTANT: Turn OFF debug in production
+DEBUG = False
 
-# Allow Render + Netlify + Localhost
+# Allow Render, Netlify, and local
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    '.onrender.com',
-    '.netlify.app',
+    "127.0.0.1",
+    "localhost",
+    ".onrender.com",
+    ".netlify.app",
 ]
+
+# Required for Render HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # ================================
@@ -49,7 +52,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
-    # Local app
+    # Local
     'analyzer',
 ]
 
@@ -63,7 +66,7 @@ MIDDLEWARE = [
 
     'django.middleware.security.SecurityMiddleware',
 
-    # Required for static files in production
+    # Static files support
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -91,6 +94,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+
         'DIRS': [],
 
         'APP_DIRS': True,
@@ -116,7 +120,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 # ================================
-# DATABASE (SQLite for now)
+# DATABASE (SQLite)
 # ================================
 
 DATABASES = {
@@ -136,12 +140,15 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
+
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
+
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
+
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
@@ -162,7 +169,7 @@ USE_TZ = True
 
 
 # ================================
-# STATIC FILES (IMPORTANT FOR RENDER)
+# STATIC FILES (RENDER REQUIRED)
 # ================================
 
 STATIC_URL = '/static/'
@@ -173,7 +180,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # ================================
-# MEDIA FILES (RESUME UPLOADS)
+# MEDIA FILES (RESUME UPLOAD)
 # ================================
 
 MEDIA_URL = '/media/'
@@ -189,7 +196,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # ================================
-# CORS SETTINGS (FOR REACT FRONTEND)
+# CORS SETTINGS (REACT FRONTEND)
 # ================================
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -200,7 +207,10 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 
 
 # ================================
-# RENDER SPECIFIC SETTINGS
+# CSRF TRUSTED ORIGINS (RENDER)
 # ================================
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.onrender.com",
+    "https://*.netlify.app",
+]
