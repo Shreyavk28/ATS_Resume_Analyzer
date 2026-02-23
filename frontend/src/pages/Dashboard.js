@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
 
-const API_BASE = "http://127.0.0.1:8000/api";
+// ✅ FIXED: Use deployed backend URL
+const API_BASE = "https://ats-backend-re6q.onrender.com/api";
 
 const Dashboard = () => {
 
@@ -17,6 +17,9 @@ const Dashboard = () => {
       setLoading(true);
 
       const res = await fetch(`${API_BASE}/candidates/`);
+
+      if (!res.ok)
+        throw new Error("Failed to fetch");
 
       const data = await res.json();
 
@@ -47,6 +50,7 @@ const Dashboard = () => {
     return "Reject";
 
   };
+
   const addCurrentCandidate = async () => {
 
     const ats = JSON.parse(localStorage.getItem("ats_result"));
@@ -61,7 +65,7 @@ const Dashboard = () => {
 
     try {
 
-      await fetch(`${API_BASE}/candidates/add/`, {
+      const res = await fetch(`${API_BASE}/candidates/add/`, {
 
         method: "POST",
 
@@ -89,11 +93,18 @@ const Dashboard = () => {
 
       });
 
+      if (!res.ok)
+        throw new Error("Failed to add");
+
       fetchCandidates();
+
+      alert("✅ Candidate added");
 
     } catch (error) {
 
       console.error("Add error:", error);
+
+      alert("❌ Failed to add candidate");
 
     }
 
@@ -103,7 +114,7 @@ const Dashboard = () => {
 
     try {
 
-      await fetch(`${API_BASE}/candidates/${id}/update/`, {
+      const res = await fetch(`${API_BASE}/candidates/${id}/update/`, {
 
         method: "PUT",
 
@@ -117,11 +128,16 @@ const Dashboard = () => {
 
       });
 
+      if (!res.ok)
+        throw new Error("Failed to update");
+
       fetchCandidates();
 
     } catch (error) {
 
       console.error("Update error:", error);
+
+      alert("❌ Failed to update status");
 
     }
 
@@ -135,17 +151,24 @@ const Dashboard = () => {
 
     try {
 
-      await fetch(`${API_BASE}/candidates/${id}/delete/`, {
+      const res = await fetch(`${API_BASE}/candidates/${id}/delete/`, {
 
         method: "DELETE"
 
       });
 
+      if (!res.ok)
+        throw new Error("Failed to delete");
+
       fetchCandidates();
+
+      alert("✅ Candidate deleted");
 
     } catch (error) {
 
       console.error("Delete error:", error);
+
+      alert("❌ Failed to delete");
 
     }
 
@@ -174,6 +197,7 @@ const Dashboard = () => {
   return (
 
     <div className="dashboard-container">
+
       <div className="dashboard-header">
 
         <h1>Recruiter Dashboard</h1>
@@ -208,6 +232,7 @@ const Dashboard = () => {
         </div>
 
       </div>
+
       <div className="pipeline">
 
         <div className="pipeline-box strong">
@@ -226,11 +251,15 @@ const Dashboard = () => {
         </div>
 
       </div>
+
       {loading && (
+
         <div className="empty-state">
           Loading candidates...
         </div>
+
       )}
+
       {!loading && candidates.length === 0 && (
 
         <div className="empty-state">
@@ -238,6 +267,7 @@ const Dashboard = () => {
         </div>
 
       )}
+
       {!loading && candidates.length > 0 && (
 
         <table className="candidate-table">

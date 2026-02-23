@@ -1,4 +1,3 @@
-
 import React, { useRef, useState } from "react";
 import "./ATSReport.css";
 
@@ -15,6 +14,9 @@ import {
 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+
+// ✅ FIXED: Use deployed backend URL
+const API_BASE = "https://ats-backend-re6q.onrender.com/api";
 
 const ATSReport = () => {
 
@@ -35,6 +37,7 @@ const ATSReport = () => {
   }
 
   const score = data.ats_score || 0;
+
   const getLevel = () => {
 
     if (score >= 80) return "Excellent Match";
@@ -43,6 +46,7 @@ const ATSReport = () => {
     return "Needs Improvement";
 
   };
+
   const getDecision = () => {
 
     if (score >= 75) return "Strong Hire";
@@ -50,6 +54,7 @@ const ATSReport = () => {
     return "Reject";
 
   };
+
   const getPercentile = () => {
 
     return Math.min(99, Math.max(40, score + 15));
@@ -73,6 +78,7 @@ const ATSReport = () => {
     })
   );
 
+  // ✅ FIXED HERE
   const saveCandidate = async () => {
 
     try {
@@ -80,7 +86,7 @@ const ATSReport = () => {
       setSaving(true);
 
       const response = await fetch(
-        "http://127.0.0.1:8000/api/candidates/add/",
+        `${API_BASE}/candidates/add/`,
         {
           method: "POST",
 
@@ -91,15 +97,10 @@ const ATSReport = () => {
           body: JSON.stringify({
 
             name: `${data.predicted_role} Candidate`,
-
             score: data.ats_score,
-
             role: data.predicted_role,
-
             matched_skills: data.matched_skills || [],
-
             missing_skills: data.missing_skills || [],
-
             status: getDecision()
 
           })
@@ -154,9 +155,11 @@ const ATSReport = () => {
     pdf.save("ATS_Report.pdf");
 
   };
+
   return (
 
     <div className="ats-container">
+
       <div style={{
         display: "flex",
         gap: "10px",
@@ -182,6 +185,7 @@ const ATSReport = () => {
       </div>
 
       <div ref={reportRef}>
+
         <h1 className="ats-title">
           ATS Report Dashboard
         </h1>
@@ -210,7 +214,6 @@ const ATSReport = () => {
 
             </ResponsiveContainer>
 
-
             <div className="score-overlay">
 
               <div className="ats-score-number">
@@ -234,7 +237,6 @@ const ATSReport = () => {
               </strong>
             </div>
 
-
             <div className="summary-row">
               <span>Hiring Decision</span>
               <strong className="badge">
@@ -242,14 +244,12 @@ const ATSReport = () => {
               </strong>
             </div>
 
-
             <div className="summary-row">
               <span>Candidate Percentile</span>
               <strong>
                 Top {getPercentile()}%
               </strong>
             </div>
-
 
             <div className="summary-row">
               <span>Matched Skills</span>
@@ -271,9 +271,7 @@ const ATSReport = () => {
             <BarChart data={roleData}>
 
               <XAxis dataKey="role"/>
-
               <YAxis domain={[0,100]}/>
-
               <Tooltip/>
 
               <Bar
@@ -332,7 +330,6 @@ const ATSReport = () => {
 
           </div>
 
-
         </div>
 
         <div className="ats-card ats-suggestions">
@@ -351,7 +348,6 @@ const ATSReport = () => {
           ))}
 
         </div>
-
 
       </div>
 
