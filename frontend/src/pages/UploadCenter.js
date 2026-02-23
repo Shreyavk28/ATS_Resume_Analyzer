@@ -3,33 +3,57 @@ import "./UploadCenter.css";
 
 const UploadCenter = () => {
 
+  const [candidateName, setCandidateName] = useState("");
   const [file, setFile] = useState(null);
   const [jobDesc, setJobDesc] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // ✅ Use environment variable
+  const API_BASE = process.env.REACT_APP_API_BASE;
+
+
   const handleUpload = async () => {
 
-    if (!file || !jobDesc) {
-      alert("Please upload resume and job description");
+    // ✅ prevent double click
+    if (loading) return;
+
+    // validation
+    if (!candidateName.trim()) {
+      alert("Please enter candidate name");
+      return;
+    }
+
+    if (!file) {
+      alert("Please upload resume file");
+      return;
+    }
+
+    if (!jobDesc.trim()) {
+      alert("Please enter job description");
       return;
     }
 
     setLoading(true);
 
     const formData = new FormData();
+    formData.append("name", candidateName);
     formData.append("file", file);
     formData.append("job_description", jobDesc);
 
     try {
 
-      // ✅ FIXED: Use your Render backend URL
-      const res = await fetch("https://ats-backend-re6q.onrender.com/api/upload/", {
+      console.log("Sending request to:", `${API_BASE}/upload/`);
+
+      const res = await fetch(`${API_BASE}/upload/`, {
         method: "POST",
         body: formData
       });
 
-      // check server response
       if (!res.ok) {
+
+        const text = await res.text();
+        console.error("Server error:", text);
+
         throw new Error("Server error");
       }
 
@@ -37,20 +61,30 @@ const UploadCenter = () => {
 
       console.log("ATS Result:", data);
 
-      // save result
-      localStorage.setItem("ats_result", JSON.stringify(data));
+      // ✅ save result AND candidate name
+      localStorage.setItem("ats_result", JSON.stringify({
+        ...data,
+        candidate_name: candidateName
+      }));
 
       // redirect
       window.location.href = "/report";
 
-    } catch (error) {
+    }
+    catch (error) {
 
-      console.error(error);
-      alert("Backend error. Please try again.");
+      console.error("Upload error:", error);
+
+      alert(
+        "Backend is starting. Please wait 30 seconds and try again."
+      );
 
     }
+    finally {
 
-    setLoading(false);
+      setLoading(false);
+
+    }
 
   };
 
@@ -67,12 +101,32 @@ const UploadCenter = () => {
 
           <div>
             <h2>Resume Upload Center</h2>
-            <p>Upload candidate resume and job description to generate ATS score</p>
+            <p>
+              Upload candidate resume and job description to generate ATS score
+            </p>
           </div>
 
         </div>
 
 
+        {/* ✅ Candidate Name Input */}
+        <div className="upload-section">
+
+          <label className="upload-label">
+            Candidate Name
+          </label>
+
+          <input
+            type="text"
+            placeholder="Enter candidate name"
+            value={candidateName}
+            onChange={(e) => setCandidateName(e.target.value)}
+          />
+
+        </div>
+
+
+        {/* Resume upload */}
         <div className="upload-section">
 
           <label className="upload-label">
@@ -94,6 +148,7 @@ const UploadCenter = () => {
         </div>
 
 
+        {/* Job description */}
         <div className="upload-section">
 
           <label className="upload-label">
@@ -109,19 +164,27 @@ const UploadCenter = () => {
         </div>
 
 
+        {/* Submit button */}
         <button
           className="upload-btn"
           onClick={handleUpload}
           disabled={loading}
         >
-          {loading ? "Analyzing Resume..." : "Analyze Resume"}
+
+          {loading
+            ? "Analyzing Resume... Please wait"
+            : "Analyze Resume"
+          }
+
         </button>
 
 
         <div className="upload-footer">
 
-          Supported formats: PDF  
+          Supported formats: PDF
+
           <br />
+
           AI will analyze skills, role match, and ATS score
 
         </div>
