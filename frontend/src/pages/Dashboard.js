@@ -1,25 +1,16 @@
 import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
 
-
-// ✅ BEST PRACTICE: environment variable
 const API_BASE =
   process.env.REACT_APP_API_BASE ||
   "https://ats-backend-re6q.onrender.com/api";
 
-
 const Dashboard = () => {
-
   const [candidates, setCandidates] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
 
   const [loading, setLoading] = useState(false);
   const [adding, setAdding] = useState(false);
-
-
-  // =========================
-  // FETCH CANDIDATES
-  // =========================
   const fetchCandidates = async () => {
 
     try {
@@ -56,7 +47,6 @@ const Dashboard = () => {
       alert(
         "Backend waking up. Please wait and refresh."
       );
-
     }
     finally {
 
@@ -65,19 +55,11 @@ const Dashboard = () => {
     }
 
   };
-
-
   useEffect(() => {
-
     fetchCandidates();
 
   }, []);
 
-
-
-  // =========================
-  // DECISION LOGIC
-  // =========================
   const getDecision = (
 
     score = 0
@@ -94,11 +76,6 @@ const Dashboard = () => {
 
   };
 
-
-
-  // =========================
-  // ADD CURRENT CANDIDATE
-  // =========================
   const addCurrentCandidate = async () => {
 
     if (adding) return;
@@ -208,12 +185,6 @@ const Dashboard = () => {
     }
 
   };
-
-
-
-  // =========================
-  // UPDATE STATUS
-  // =========================
   const updateStatus = async (
 
     id,
@@ -274,11 +245,6 @@ const Dashboard = () => {
 
   };
 
-
-
-  // =========================
-  // DELETE CANDIDATE
-  // =========================
   const deleteCandidate = async (
 
     id
@@ -337,11 +303,6 @@ const Dashboard = () => {
 
   };
 
-
-
-  // =========================
-  // SORT LOGIC
-  // =========================
   const sortedCandidates =
     [...candidates].sort(
 
@@ -367,11 +328,6 @@ const Dashboard = () => {
 
     );
 
-
-
-  // =========================
-  // PIPELINE COUNTS
-  // =========================
   const strongCount =
     candidates.filter(
 
@@ -380,7 +336,6 @@ const Dashboard = () => {
         "Strong Hire"
 
     ).length;
-
 
   const considerCount =
     candidates.filter(
@@ -391,7 +346,6 @@ const Dashboard = () => {
 
     ).length;
 
-
   const rejectCount =
     candidates.filter(
 
@@ -401,24 +355,14 @@ const Dashboard = () => {
 
     ).length;
 
-
-
-  // =========================
-  // UI
-  // =========================
   return (
 
     <div className="dashboard-container">
-
-
       <div className="dashboard-header">
 
         <h1>
-
           Recruiter Dashboard
-
         </h1>
-
 
         <div className="dashboard-actions">
 
@@ -449,8 +393,6 @@ const Dashboard = () => {
             }
 
           </button>
-
-
           <select
 
             className="sort-select"
@@ -470,9 +412,7 @@ const Dashboard = () => {
           >
 
             <option value="desc">
-
               Highest Score First
-
             </option>
 
             <option value="asc">
@@ -487,12 +427,7 @@ const Dashboard = () => {
 
       </div>
 
-
-
-      {/* PIPELINE */}
-
       <div className="pipeline">
-
         <div className="pipeline-box strong">
 
           Strong Hire
@@ -504,8 +439,6 @@ const Dashboard = () => {
           </span>
 
         </div>
-
-
         <div className="pipeline-box consider">
 
           Consider
@@ -518,7 +451,6 @@ const Dashboard = () => {
 
         </div>
 
-
         <div className="pipeline-box reject">
 
           Reject
@@ -526,17 +458,9 @@ const Dashboard = () => {
           <span>
 
             {rejectCount}
-
           </span>
-
         </div>
-
       </div>
-
-
-
-      {/* LOADING */}
-
       {loading && (
 
         <div className="empty-state">
@@ -546,10 +470,6 @@ const Dashboard = () => {
         </div>
 
       )}
-
-
-
-      {/* EMPTY */}
 
       {!loading &&
         candidates.length === 0 && (
@@ -561,10 +481,6 @@ const Dashboard = () => {
           </div>
 
         )}
-
-
-
-      {/* TABLE */}
 
       {!loading &&
         candidates.length > 0 && (

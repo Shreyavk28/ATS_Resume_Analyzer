@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import "./ATSReport.css";
-
 import {
   BarChart,
   Bar,
@@ -14,27 +13,17 @@ import {
 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-
-
-// ✅ BEST PRACTICE: use environment variable
 const API_BASE =
   process.env.REACT_APP_API_BASE ||
   "https://ats-backend-re6q.onrender.com/api";
 
 
 const ATSReport = () => {
-
   const reportRef = useRef();
-
   const [saving, setSaving] = useState(false);
-
-  // ✅ safely parse data
   const stored = localStorage.getItem("ats_result");
   const data = stored ? JSON.parse(stored) : null;
-
-
   if (!data) {
-
     return (
       <div className="ats-container">
         <div className="ats-card">
@@ -44,46 +33,29 @@ const ATSReport = () => {
     );
 
   }
-
-
   const score = data.ats_score || 0;
-
   const candidateName =
     data.candidate_name ||
     `${data.predicted_role || "Candidate"} Candidate`;
-
-
   const getLevel = () => {
-
     if (score >= 80) return "Excellent Match";
     if (score >= 65) return "Good Match";
     if (score >= 50) return "Average Match";
 
     return "Needs Improvement";
-
   };
-
-
   const getDecision = () => {
 
     if (score >= 75) return "Strong Hire";
     if (score >= 60) return "Consider";
-
     return "Reject";
-
   };
-
-
   const getPercentile = () => {
-
     return Math.min(
       99,
       Math.max(40, score + 15)
     );
-
   };
-
-
   const getScoreColor = () => {
 
     if (score >= 75) return "#10b981";
@@ -91,13 +63,8 @@ const ATSReport = () => {
     if (score >= 60) return "#f59e0b";
 
     return "#ef4444";
-
   };
-
-
   const radialData = [{ score }];
-
-
   const roleData =
     Object.entries(
       data.role_scores || {}
@@ -111,515 +78,279 @@ const ATSReport = () => {
       })
 
     );
-
-
-  // ✅ FIXED SAVE CANDIDATE FUNCTION
   const saveCandidate = async () => {
-
-    // prevent double save
     if (saving) return;
-
     try {
 
       setSaving(true);
-
       console.log(
         "Saving candidate to:",
         `${API_BASE}/candidates/add/`
       );
-
       const response = await fetch(
-
         `${API_BASE}/candidates/add/`,
 
         {
-
           method: "POST",
-
           headers: {
-
             "Content-Type":
               "application/json"
-
           },
-
           body: JSON.stringify({
-
             name: candidateName,
-
             score: score,
-
             role:
               data.predicted_role ||
               "Unknown",
-
             matched_skills:
               data.matched_skills || [],
-
             missing_skills:
               data.missing_skills || [],
-
             status:
               getDecision()
-
           })
-
         }
-
       );
 
-
       if (!response.ok) {
-
         const text =
           await response.text();
-
         console.error(
           "Save error:",
           text
         );
-
         throw new Error(
           "Save failed"
         );
-
       }
-
-
       alert(
         "✅ Candidate saved successfully"
       );
-
-
     }
     catch (error) {
-
       console.error(error);
-
       alert(
         "Backend waking up. Please wait 30 seconds and try again."
       );
-
     }
     finally {
-
       setSaving(false);
-
     }
-
   };
 
-
-
-  // ✅ PDF DOWNLOAD FUNCTION
   const downloadPDF = async () => {
 
     try {
-
       const element =
         reportRef.current;
-
       const canvas =
         await html2canvas(
-
           element,
-
           {
-
             scale: 2
-
           }
-
         );
-
 
       const imgData =
         canvas.toDataURL(
           "image/png"
         );
-
-
       const pdf =
         new jsPDF(
-
           "p",
-
           "mm",
-
           "a4"
-
         );
 
-
       const imgWidth = 210;
-
       const imgHeight =
-
         (canvas.height *
           imgWidth) /
-
         canvas.width;
-
-
       pdf.addImage(
-
         imgData,
-
         "PNG",
-
         0,
-
         0,
-
         imgWidth,
-
         imgHeight
-
       );
-
 
       pdf.save(
         `${candidateName}_ATS_Report.pdf`
       );
-
     }
     catch (error) {
-
       console.error(
         "PDF error:",
         error
       );
-
       alert(
         "Failed to download PDF"
       );
-
     }
-
   };
 
-
-
   return (
-
     <div className="ats-container">
-
-      {/* Buttons */}
-
       <div
-
         style={{
-
           display: "flex",
-
           gap: "10px",
-
           justifyContent:
             "flex-end",
-
           marginBottom:
             "20px"
-
         }}
-
       >
-
         <button
-
           className="download-btn"
-
           onClick={
             downloadPDF
           }
-
         >
-
           Download PDF
-
         </button>
-
-
         <button
-
           className="download-btn"
-
           onClick={
             saveCandidate
           }
-
           disabled={saving}
-
         >
-
           {
-
             saving
-
               ?
-
               "Saving..."
-
               :
-
               "Save Candidate"
-
           }
-
         </button>
-
       </div>
 
-
-
-      {/* Report */}
-
       <div ref={reportRef}>
-
-
         <h1 className="ats-title">
-
           ATS Report Dashboard
-
         </h1>
 
-
-
-        {/* Score Section */}
-
         <div className="ats-top-grid">
-
           <div className="ats-score-card">
-
             <ResponsiveContainer
-
               width="100%"
-
               height={220}
-
             >
-
               <RadialBarChart
-
                 innerRadius="75%"
-
                 outerRadius="100%"
-
                 data={radialData}
-
                 startAngle={90}
-
                 endAngle={-270}
-
               >
-
                 <RadialBar
-
                   dataKey="score"
-
                   fill={
                     getScoreColor()
                   }
-
                   cornerRadius={10}
-
                 />
-
               </RadialBarChart>
-
             </ResponsiveContainer>
 
-
             <div className="score-overlay">
-
               <div className="ats-score-number">
-
                 {score}%
-
               </div>
-
 
               <div className="score-level">
-
                 {
-
                   getLevel()
-
                 }
-
               </div>
-
             </div>
-
           </div>
-
-
-
-          {/* Summary */}
 
           <div className="ats-card summary-card">
-
             <div className="summary-row">
-
               <span>
-
                 Candidate Name
-
               </span>
-
               <strong>
-
                 {
-
                   candidateName
-
                 }
-
               </strong>
-
             </div>
 
-
             <div className="summary-row">
-
               <span>
-
                 Predicted Role
-
               </span>
-
               <strong>
-
                 {
-
                   data.predicted_role
-
                 }
-
               </strong>
-
             </div>
 
-
             <div className="summary-row">
-
               <span>
-
                 Hiring Decision
-
               </span>
-
               <strong className="badge">
-
                 {
-
                   getDecision()
-
                 }
-
               </strong>
-
             </div>
 
-
             <div className="summary-row">
-
               <span>
-
                 Candidate Percentile
-
               </span>
-
               <strong>
-
                 Top {
-
                   getPercentile()
-
                 }%
-
               </strong>
-
             </div>
 
-
             <div className="summary-row">
-
               <span>
-
                 Matched Skills
-
               </span>
-
               <strong>
-
                 {
-
                   data.matched_skills
                     ?.length || 0
-
                 }
-
               </strong>
-
             </div>
-
           </div>
-
         </div>
-
-
-
-        {/* Role chart */}
 
         <div className="ats-card full-width">
-
           <h3>
-
             Role Matching Analysis
-
           </h3>
-
-
           <ResponsiveContainer
-
             width="100%"
-
             height={300}
-
           >
-
             <BarChart
-
               data={roleData}
-
             >
-
               <XAxis dataKey="role"/>
-
               <YAxis domain={[0,100]}/>
-
               <Tooltip/>
 
-
               <Bar
-
                 dataKey="score"
-
                 fill="#2563eb"
-
                 radius={[8,8,0,0]}
-
               />
-
             </BarChart>
-
           </ResponsiveContainer>
-
         </div>
-
-
-
-        {/* Skills */}
 
         <div className="ats-grid">
 
@@ -663,8 +394,6 @@ const ATSReport = () => {
 
           </div>
 
-
-
           <div className="ats-card">
 
             <h3>
@@ -706,10 +435,6 @@ const ATSReport = () => {
           </div>
 
         </div>
-
-
-
-        {/* Suggestions */}
 
         <div className="ats-card ats-suggestions">
 

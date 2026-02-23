@@ -7,27 +7,19 @@ const UploadCenter = () => {
   const [file, setFile] = useState(null);
   const [jobDesc, setJobDesc] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // ✅ Use environment variable
   const API_BASE = process.env.REACT_APP_API_BASE;
 
 
   const handleUpload = async () => {
-
-    // ✅ prevent double click
     if (loading) return;
-
-    // validation
     if (!candidateName.trim()) {
       alert("Please enter candidate name");
       return;
     }
-
     if (!file) {
       alert("Please upload resume file");
       return;
     }
-
     if (!jobDesc.trim()) {
       alert("Please enter job description");
       return;
@@ -60,14 +52,10 @@ const UploadCenter = () => {
       const data = await res.json();
 
       console.log("ATS Result:", data);
-
-      // ✅ save result AND candidate name
       localStorage.setItem("ats_result", JSON.stringify({
         ...data,
         candidate_name: candidateName
       }));
-
-      // redirect
       window.location.href = "/report";
 
     }
@@ -88,7 +76,6 @@ const UploadCenter = () => {
 
   };
 
-
   return (
 
     <div className="upload-container">
@@ -107,9 +94,6 @@ const UploadCenter = () => {
           </div>
 
         </div>
-
-
-        {/* ✅ Candidate Name Input */}
         <div className="upload-section">
 
           <label className="upload-label">
@@ -124,9 +108,6 @@ const UploadCenter = () => {
           />
 
         </div>
-
-
-        {/* Resume upload */}
         <div className="upload-section">
 
           <label className="upload-label">
@@ -146,9 +127,6 @@ const UploadCenter = () => {
           )}
 
         </div>
-
-
-        {/* Job description */}
         <div className="upload-section">
 
           <label className="upload-label">
@@ -162,9 +140,6 @@ const UploadCenter = () => {
           />
 
         </div>
-
-
-        {/* Submit button */}
         <button
           className="upload-btn"
           onClick={handleUpload}
@@ -177,8 +152,6 @@ const UploadCenter = () => {
           }
 
         </button>
-
-
         <div className="upload-footer">
 
           Supported formats: PDF
@@ -192,9 +165,7 @@ const UploadCenter = () => {
       </div>
 
     </div>
-
   );
-
 };
 
 export default UploadCenter;
