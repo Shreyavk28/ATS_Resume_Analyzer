@@ -7,6 +7,9 @@ const UploadCenter = () => {
   const [jobDesc, setJobDesc] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // ✅ IMPORTANT: Use Render backend URL
+  const API_URL = "https://ats-backend-re6q.onrender.com/api/upload/";
+
   const handleUpload = async () => {
 
     if (!file || !jobDesc) {
@@ -22,36 +25,32 @@ const UploadCenter = () => {
 
     try {
 
-      // ✅ FIXED: Use your Render backend URL
-      const res = await fetch("https://ats-backend-re6q.onrender.com/api/upload/", {
+      const res = await fetch(API_URL, {
         method: "POST",
-        body: formData
+        body: formData,
       });
 
-      // check server response
       if (!res.ok) {
         throw new Error("Server error");
       }
 
       const data = await res.json();
 
-      console.log("ATS Result:", data);
+      console.log("ATS RESULT:", data);
 
-      // save result
       localStorage.setItem("ats_result", JSON.stringify(data));
 
-      // redirect
       window.location.href = "/report";
 
     } catch (error) {
 
       console.error(error);
-      alert("Backend error. Please try again.");
+
+      alert("Backend error. Please check backend deployment.");
 
     }
 
     setLoading(false);
-
   };
 
 
@@ -71,7 +70,6 @@ const UploadCenter = () => {
           </div>
 
         </div>
-
 
         <div className="upload-section">
 
@@ -93,7 +91,6 @@ const UploadCenter = () => {
 
         </div>
 
-
         <div className="upload-section">
 
           <label className="upload-label">
@@ -108,7 +105,6 @@ const UploadCenter = () => {
 
         </div>
 
-
         <button
           className="upload-btn"
           onClick={handleUpload}
@@ -116,7 +112,6 @@ const UploadCenter = () => {
         >
           {loading ? "Analyzing Resume..." : "Analyze Resume"}
         </button>
-
 
         <div className="upload-footer">
 
