@@ -50,7 +50,7 @@ An enterprise-level Applicant Tracking System (ATS) Resume Analyzer built using 
 
 **Database**
 - SQLite (Development)
-- PostgreSQL (Production Ready)
+
 
 ---
 
