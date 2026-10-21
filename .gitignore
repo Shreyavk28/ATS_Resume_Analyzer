@@ -4,9 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-.env
-.env.*
-!.env.example
+
 
 # testing
 /coverage
@@ -44,3 +42,9 @@ build/
 
 # OS
 .DS_Store
+
+
+# Environment variables
+.env
+.env.*
+!.env.example
